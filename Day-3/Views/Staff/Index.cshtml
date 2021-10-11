@@ -1,0 +1,22 @@
+﻿@model  List<Staff>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">Họ Và  Tên</th>
+            <th scope="col">Infomation</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var st in @Model)
+        {<tr>
+            <th scope="row">@st.Id</th>
+            <td>@st.Name</td>
+            <td>
+                <a asp-action="Info" asp-controller="Staff" asp-route-id="@st.Id" class="btn btn-secondary" type="submit">Infomation</a>
+                <a asp-action="Delete" asp-controller="Staff" asp-route-id="@st.Id" class="btn btn-danger" type="submit">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
