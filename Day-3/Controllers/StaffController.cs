@@ -17,8 +17,22 @@ namespace Day_3.Controllers
         }
         public IActionResult Index()
         {
-            var list = _db.Staffs.ToList();
-            return View(list);
+            IEnumerable<Staff> list = _db.Staffs;
+            List<StaffViewModel> List = new List<StaffViewModel>();
+            foreach(var s in list)
+            {
+                var staffvm = new StaffViewModel()
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Age = s.Age,
+                    Email = s.Email,
+                    Birthday = s.Birthday,
+                    Address = s.Address
+                };
+                List.Add(staffvm);
+            };
+            return View(List);
         }
         [HttpGet]
         public IActionResult Info(int id)

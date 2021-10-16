@@ -14,17 +14,19 @@ namespace Day_3.ViewModel
     {
 
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
+       
         public string Image { get; set; }
         [Required(ErrorMessage = "Chọn một file")]
         [DataType(DataType.Upload)]
-        [FileExtensions(Extensions = "png,jpg,jpeg,gif")]
         [Display(Name = "Chọn file upload")]
         [BindProperty]
         public IFormFile UploadImage { get; set; }
+        [Required]
         public int Price { get; set; }
-       
+        [Required]
         public int CategoryId { get; set; }
-        public Category Category { get; set; }
+
     }
 }
