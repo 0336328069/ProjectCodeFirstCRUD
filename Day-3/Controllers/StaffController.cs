@@ -17,14 +17,24 @@ namespace Day_3.Controllers
         }
         public IActionResult Index()
         {
-            var list = _db.Staffs.ToList();
-            return View(list);
+            IEnumerable<Staff> list = _db.Staffs;
+            List<StaffViewModel> List = new List<StaffViewModel>();
+            foreach(var s in list)
+            {
+                var staffvm = new StaffViewModel()
+                {
+                    Id = s.Id,
+                    Name = s.Name
+                };
+                List.Add(staffvm);
+            };
+            return View(List);
         }
         [HttpGet]
         public IActionResult Info(int id)
         {
             var st = _db.Staffs.FirstOrDefault(s => s.Id == id);
-            var s = new StaffViewModel()
+            var s = new InfoStaffViewModel()
             {
                 Id = st.Id,
                 Name = st.Name,
@@ -36,7 +46,7 @@ namespace Day_3.Controllers
             return View(s);
         }
         
-        public IActionResult Update(StaffViewModel model)
+        public IActionResult Update(InfoStaffViewModel model)
         {
             var st = _db.Staffs.FirstOrDefault(s => s.Id == model.Id);
             st.Id = model.Id;
@@ -48,7 +58,7 @@ namespace Day_3.Controllers
             _db.SaveChanges();
             return RedirectToAction("Index","Staff");
         }
-        public  IActionResult Delete(StaffViewModel model)
+        public  IActionResult Delete(InfoStaffViewModel model)
         {
             var s = _db.Staffs.FirstOrDefault(s => s.Id == model.Id);
             _db.Remove(s);

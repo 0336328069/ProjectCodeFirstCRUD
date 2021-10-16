@@ -24,12 +24,40 @@ namespace Day_3.Controllers
         [HttpGet]
         public IActionResult Index(int id)
         {
-            var list = _db.Products.Where(p => p.CategoryId == id).ToList();
+        
+            List<ProductsViewModel> list = new List<ProductsViewModel>();
+            foreach(var p in _db.Products)
+            {
+                if(id == p.CategoryId) {  
+                var newP = new ProductsViewModel()
+                {
+                    CategoryId = p.CategoryId,
+                    Id = p.Id,
+                    Image = p.Image,
+                    Name = p.Name,
+                    Price = p.Price
+                };
+                list.Add(newP);
+                }
+            }
             return View(list);
         }
         public IActionResult Check(string name)
         {
-            var List = _db.Products.Where(p => p.Name.Contains(name)).ToList();
+            var List = new List<ProductsViewModel>();
+            var list = _db.Products.Where(p => p.Name.Contains(name)).ToList();
+            foreach(var p in list)
+            {
+                var productvm = new ProductsViewModel()
+                {
+                    Id = p.Id,
+                    Image = p.Image,
+                    Name = p.Name,
+                    Price = p.Price,
+                    CategoryId = p.CategoryId
+                };
+                List.Add(productvm);
+            }
             return View(List);
         }
         [HttpGet]
@@ -38,23 +66,29 @@ namespace Day_3.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Insert(ProductsViewModel model)
+        [ValidateAntiForgeryToken]
+        public IActionResult Insert(InsertProductsViewModel model)
         {
-            var upload = Path.Combine(_environment.WebRootPath, "Img", model.UploadImage.FileName);
-            using (var filestream = new FileStream(upload, FileMode.Create))
+            if (ModelState.IsValid)
             {
-                model.UploadImage.CopyTo(filestream);
+                if (model.UploadImage != null)
+                {
+                    var c = new Product();
+                    var upload = Path.Combine(_environment.WebRootPath, "Img", model.UploadImage.FileName);
+                    using (var filestream = new FileStream(upload, FileMode.Create))
+                    {
+                        model.UploadImage.CopyTo(filestream);
+                    }
+                    c.Name = model.Name;
+                    c.Image = model.UploadImage.FileName;
+                    c.CategoryId = model.CategoryId;
+                    c.Price = model.Price;
+                    _db.Products.Add(c);
+                    _db.SaveChanges();
+                    return RedirectToAction("Index", "Home");
+                }
             }
-            var p = new Product()
-            {
-                Name = model.Name,
-                Image = model.UploadImage.FileName,
-                CategoryId = model.CategoryId,
-                Price = model.Price
-            };
-            _db.Products.Add(p);
-            _db.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return View("~/Views/Products/Insert.cshtml",model);
         }
         public IActionResult Delete(int id)
         {
@@ -67,7 +101,7 @@ namespace Day_3.Controllers
         public IActionResult Update(int id)
         {
             var c = _db.Products.FirstOrDefault(p => p.Id == id);
-            var pr = new ProductsViewModel()
+            var pr = new UpdateProductsViewModel()
             {
                 Id = c.Id,
                 CategoryId = c.CategoryId,
@@ -78,7 +112,7 @@ namespace Day_3.Controllers
             return View(pr);
         }
         [HttpPost]
-        public IActionResult Update(ProductsViewModel model)
+        public IActionResult Update(UpdateProductsViewModel model)
         {
             var c = _db.Products.FirstOrDefault(p=>p.Id==model.Id);
 

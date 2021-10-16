@@ -1,23 +1,26 @@
-﻿@model ProductsViewModel
+﻿@model InsertProductsViewModel
 
 <form style="margin-left: 150px; width: 70% ;" asp-controller="Products" asp-action="Insert" method="post" enctype="multipart/form-data"> 
 
     <div class="form-group">
-        <label for="exampleInputEmail1">UploadImage</label>
-        <input class="form-control" asp-for="UploadImage">
-        <span asp-validation-for="UploadImage"></span>
+        <label for="UploadImage">Upload Image</label>
+        <input class="form-control" type="file" asp-for="UploadImage">
+        <span asp-validation-for="UploadImage" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="exampleInputPassword1">NameProduct</label>
+        <label for="NameProduct">Product's Name</label>
         <input class="form-control" asp-for="Name">
+        <span asp-validation-for="Name" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="exampleInputPassword1">Price</label>
+        <label for="Price">Price</label>
         <input class="form-control" asp-for="Price">
+        <span asp-validation-for="Price" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="exampleInputPassword1">Category</label>
+        <label for="Category">Category</label>
         <input class="form-control" asp-for="CategoryId">
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
     <button class="btn btn-primary" type="submit">Insert</button>
 </form>

@@ -17,48 +17,55 @@ namespace Day_3.Controllers
         }
         public IActionResult Index()
         {
+            
             return View();
         }
-        public IActionResult  Login(UserViewModel model)
+        [HttpPost]
+ 
+        public IActionResult  Login(LoginViewModel model)
         {
-            var list = _db.Users.ToList();
-            foreach(var u in list)
+            IEnumerable<User> list = _db.Users;
+            if (ModelState.IsValid)
             {
-                if(u.Username==model.Username&&u.Password==model.Password)
+                foreach (var u in list)
                 {
-                    return RedirectToAction("Index", "Home");
+                    if (u.Username == model.Username && u.Password == u.Password)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
                 }
             }
-            return RedirectToAction("Index", "Login");
+            return View("~/Views/Login/Index.cshtml", model);
         }
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+        [HttpPost]
         public IActionResult Register(RegisterViewModel model)
         {
-            var list = _db.Users.ToList();
-            foreach(var u in list)
+            IEnumerable<User> list = _db.Users;
+            if (ModelState.IsValid)
             {
-                if(u.Username==model.Username||model.Password!=model.RepeatPassword)
+                foreach (var u in list)
                 {
-                    return RedirectToAction("Register", "Login"); 
-                }
-                else
-                {
-                    var c = new User()
+                    if (u.Username != model.Username || model.Password == model.RepeatPassword)
                     {
-                        Id = model.Id,
-                        Username = model.Username,
-                        Password = model.Password
-                    };
-                    _db.Users.Add(c);
-                    break;
+                        var c = new User()
+                        {
+                            Id = model.Id,
+                            Username = model.Username,
+                            Password = model.Password
+                        };
+                        _db.Users.Add(c);
+                        break;
+                        
+                    }
                 }
-            }
+            } 
             _db.SaveChanges();
-            return RedirectToAction("Index", "Login");
+            return View("~/Views/Login/Register.cshtml", model);
         }
     }
 }

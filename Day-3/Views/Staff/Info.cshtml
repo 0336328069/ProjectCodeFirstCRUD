@@ -1,5 +1,5 @@
 ﻿
-@model StaffViewModel
+@model InfoStaffViewModel
 
 <body>
     <header>
@@ -10,38 +10,38 @@
 
                     <div class="col-lg-3">
                         <div class="user--profile-left" style="padding: 20px;">
-                            <li class="list-group-item"><a href="#" class="text-decoration-none text-dark ">Thông Tin Cá Nhân</a></li>
-                            <li class="list-group-item"><a href="#" class="text-decoration-none text-dark ">Đổi tên người dùng</a></li>
-                            <li class="list-group-item"><a href="#" class="text-decoration-none text-dark "> Đổi mật khẩu</a></li>
-                            <li class="list-group-item"><a href="#" class="text-decoration-none text-dark ">Quản lý đội</a></li>
-                            <li class="list-group-item"><a href="#" class="text-decoration-none text-dark">Liên hệ</a></li>
+                            <li class="list-group-item"><a href="#" class="text-decoration-none text-dark ">Infomation</a></li>
+                            <li class="list-group-item"><a href="#" class="text-decoration-none text-dark ">Change Your User Name</a></li>
+                            <li class="list-group-item"><a href="#" class="text-decoration-none text-dark ">Change Password</a></li>
+                            <li class="list-group-item"><a href="#" class="text-decoration-none text-dark ">Team Management</a></li>
+                            <li class="list-group-item"><a href="#" class="text-decoration-none text-dark">Contact</a></li>
                         </div>
                     </div>
                     <div class="col-lg-9 d-flex">
                         <form>
                             <div class="form-group d-flex" >
-                                <label for="exampleInputEmail1" hidden>ID</label>
-                                <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for="Id" hidden>
+                                <label for="ID" hidden>ID</label>
+                                <input class="form-control"  asp-for="Id" hidden>
                             </div>
                             <div class="form-group d-flex">
-                                <label for="exampleInputEmail1">Name</label>
-                                <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for="Name">
+                                <label for="Name">Name</label>
+                                <input class="form-control"  asp-for="Name">
                             </div>
                             <div class="form-group d-flex">
-                                <label for="exampleInputPassword1">Age</label>
-                                <input class="form-control" id="exampleInputPassword1" asp-for="Age">
+                                <label for="Age">Age</label>
+                                <input class="form-control"  asp-for="Age">
                             </div>
                             <div class="form-group d-flex">
-                                <label for="exampleInputEmail1">Email</label>
-                                <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for="Email">
+                                <label for="Email">Email</label>
+                                <input class="form-control"   asp-for="Email">
                             </div>
                             <div class="form-group d-flex">
-                                <label for="exampleInputEmail1">BirthDay</label>
-                                <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for="Birthday">
+                                <label for="BirthDay">BirthDay</label>
+                                <input class="form-control" asp-for="Birthday">
                             </div>
                             <div class="form-group d-flex">
-                                <label for="exampleInputEmail1">Address</label>
-                                <input class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" asp-for="Address">
+                                <label for="Address">Address</label>
+                                <input class="form-control" asp-for="Address">
                             </div>
                             <div class="form-group d-flex" style="float: right;">
                                 <button type="submit" class="btn btn-primary mx-3"  asp-action="Update" asp-controller="Staff">Save</button>
