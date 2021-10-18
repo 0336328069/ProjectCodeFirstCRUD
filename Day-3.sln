@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Day-3", "Day-3\Day-3.csproj", "{086611B8-9669-4F60-AFE8-BC1E7870D101}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RCLibrary", "RCLibrary\RCLibrary.csproj", "{12D97254-46F6-428F-8F38-B6F3B2F0908F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RCLibrary", "RCLibrary\RCLibrary.csproj", "{12D97254-46F6-428F-8F38-B6F3B2F0908F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
