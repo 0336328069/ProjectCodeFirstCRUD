@@ -74,8 +74,10 @@ namespace Day_3.Controllers
                 if (model.UploadImage != null)
                 {
                     var c = new Product();
-                    var upload = Path.Combine(_environment.WebRootPath, "Img", model.UploadImage.FileName);
-                    using (var filestream = new FileStream(upload, FileMode.Create))
+                    var imageFolder = Path.Combine(_environment.WebRootPath, "Img");
+                    var uniqueFilename = Guid.NewGuid().ToString() + "_" + model.UploadImage.FileName;
+                    var filePath = Path.Combine(imageFolder, uniqueFilename);
+                    using (var filestream = new FileStream(filePath, FileMode.Create))
                     {
                         model.UploadImage.CopyTo(filestream);
                     }
@@ -118,8 +120,10 @@ namespace Day_3.Controllers
 
             if (model.UploadImage != null)
             {
-                var upload = Path.Combine(_environment.WebRootPath,"Img",model.UploadImage.FileName);
-                using (var filestream = new FileStream(upload, FileMode.Create))
+                var imageFolder = Path.Combine(_environment.WebRootPath, "Img");
+                var uniqueFilename = Guid.NewGuid().ToString() + "_" + model.UploadImage.FileName;
+                var filePath = Path.Combine(imageFolder, uniqueFilename);
+                using (var filestream = new FileStream(filePath, FileMode.Create))
                 {
                     model.UploadImage.CopyTo(filestream);
                 }
