@@ -1,4 +1,5 @@
 ﻿using Day_3.Models;
+using Day_3.Services;
 using Day_3.ViewModel;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -12,53 +13,25 @@ namespace Day_3.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly AppDbContext _db;
-        private readonly IWebHostEnvironment _environment;
-        public ProductsController(AppDbContext db, IWebHostEnvironment environment)
+        private readonly IProduct product;
+        private readonly IWebHostEnvironment environment;
+        public ProductsController(IProduct product, IWebHostEnvironment environment)
         {
-            _db = db;
-            _environment = environment;
+            this.product = product;
+            this.environment = environment;
         }
         
         
         [HttpGet]
         public IActionResult Index(int id)
         {
-        
-            List<ProductsViewModel> list = new List<ProductsViewModel>();
-            foreach(var p in _db.Products)
-            {
-                if(id == p.CategoryId) {  
-                var newP = new ProductsViewModel()
-                {
-                    CategoryId = p.CategoryId,
-                    Id = p.Id,
-                    Image = p.Image,
-                    Name = p.Name,
-                    Price = p.Price
-                };
-                list.Add(newP);
-                }
-            }
-            return View(list);
+            ViewData["Products"]=product.Gets(id);
+            return View();
         }
         public IActionResult Check(string name)
         {
-            var List = new List<ProductsViewModel>();
-            var list = _db.Products.Where(p => p.Name.Contains(name)).ToList();
-            foreach(var p in list)
-            {
-                var productvm = new ProductsViewModel()
-                {
-                    Id = p.Id,
-                    Image = p.Image,
-                    Name = p.Name,
-                    Price = p.Price,
-                    CategoryId = p.CategoryId
-                };
-                List.Add(productvm);
-            }
-            return View(List);
+            ViewBag.Products = product.Check(name);
+            return View();
         }
         [HttpGet]
         public IActionResult Insert()
@@ -74,7 +47,7 @@ namespace Day_3.Controllers
                 if (model.UploadImage != null)
                 {
                     var c = new Product();
-                    var imageFolder = Path.Combine(_environment.WebRootPath, "Img");
+                    var imageFolder = Path.Combine(environment.WebRootPath, "Img");
                     var uniqueFilename = Guid.NewGuid().ToString() + "_" + model.UploadImage.FileName;
                     var filePath = Path.Combine(imageFolder, uniqueFilename);
                     using (var filestream = new FileStream(filePath, FileMode.Create))
@@ -85,42 +58,40 @@ namespace Day_3.Controllers
                     c.Image = model.UploadImage.FileName;
                     c.CategoryId = model.CategoryId;
                     c.Price = model.Price;
-                    _db.Products.Add(c);
-                    _db.SaveChanges();
+                    product.Create(c);
                     return RedirectToAction("Index", "Home");
                 }
             }
-            return View("~/Views/Products/Insert.cshtml",model);
+            return View("~/Views/Products/Insert.cshtml", model);
         }
         public IActionResult Delete(int id)
         {
-            var c = _db.Products.FirstOrDefault(p => p.Id == id);
-            _db.Products.Remove(c);
-            _db.SaveChanges();
-            return RedirectToAction("Index","Home");
+            product.Delete(id);
+            return RedirectToAction("Index", "Home");
         }
         [HttpGet]
         public IActionResult Update(int id)
         {
-            var c = _db.Products.FirstOrDefault(p => p.Id == id);
+            var p = product.Get(id);
             var pr = new UpdateProductsViewModel()
             {
-                Id = c.Id,
-                CategoryId = c.CategoryId,
-                Image = c.Image,
-                Name = c.Name,
-                Price = c.Price
+               Id=p.Id,
+               CategoryId=p.CategoryId,
+               Image=p.Image,
+               Name=p.Name,
+               Price=p.Price
             };
             return View(pr);
         }
         [HttpPost]
         public IActionResult Update(UpdateProductsViewModel model)
         {
-            var c = _db.Products.FirstOrDefault(p=>p.Id==model.Id);
 
+            var c = product.Get(model.Id);
             if (model.UploadImage != null)
             {
-                var imageFolder = Path.Combine(_environment.WebRootPath, "Img");
+                
+                var imageFolder = Path.Combine(environment.WebRootPath, "Img");
                 var uniqueFilename = Guid.NewGuid().ToString() + "_" + model.UploadImage.FileName;
                 var filePath = Path.Combine(imageFolder, uniqueFilename);
                 using (var filestream = new FileStream(filePath, FileMode.Create))
@@ -131,7 +102,7 @@ namespace Day_3.Controllers
                 c.Name = model.Name;
                 c.Price = model.Price;
                 c.CategoryId = model.CategoryId;
-                
+
             }
             else
             {
@@ -140,8 +111,9 @@ namespace Day_3.Controllers
                 c.Price = model.Price;
                 c.CategoryId = model.CategoryId;
             }
-            _db.SaveChanges();
+            product.Edit(c);
+            product.Save();
             return RedirectToAction("Index", "Home");
-          }
+        }
     }
 }

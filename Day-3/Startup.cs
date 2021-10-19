@@ -1,4 +1,5 @@
 using Day_3.Models;
+using Day_3.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +30,7 @@ namespace Day_3
                     options.UseSqlServer(Configuration.GetConnectionString("CoffeeShop"))
                 );
             services.AddControllersWithViews();
+            services.AddScoped<IProduct, ProductRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
