@@ -85,6 +85,7 @@ namespace Day_3.Controllers
                     c.CategoryId = model.CategoryId;
                     c.Price = model.Price;
                     product.Create(c);
+                    product.Save();
                     return RedirectToAction("Index", "Home");
                 }
             }

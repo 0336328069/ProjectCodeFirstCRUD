@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace Day_3.Services
 {
-    public interface IAccount
+    public interface IStaff
     {
-        IEnumerable<User> Gets();
-        User Get(string name);
-        void Create(User u);
-        void Edit(User u);
+        IEnumerable<Staff> Gets();
+        Staff Get(int id);
+        void Create(Staff s);
+        void Edit(Staff s);
+        void Delete(int id);
+
         void Save();
     }
 }

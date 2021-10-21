@@ -1,4 +1,7 @@
-﻿<header>
+﻿@{ 
+    var username = ViewData["Username"] as String;
+}
+<header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3">
         <div class="container">
             <a class="navbar-brand text-white" style="margin-right: 600px; font-size: 25px" asp-area="" asp-controller="Home" asp-action="Index">COFFESHOP</a>
@@ -27,7 +30,16 @@
                         <a class="nav-link " style="font-size: 20px; padding: 10px; color: #bde9ec !important" asp-area="" asp-controller="Staff" asp-action="Index">STAFF</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link " style="font-size: 20px; padding: 10px; color: #bde9ec !important" asp-area="" asp-controller="Login" asp-action="Index">LOGIN</a>
+                        <div class="dropdown show">
+                            <a class="nav-link dropdown-toggle" style="font-size: 20px; padding: 10px; color: #bde9ec !important " href="#" role="button" id="dropdownAccountLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                @username
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownAccountLink">
+                                <a class="nav-link" style="font-size:20px;padding:10px;color:black" asp-area="" asp-controller="Account" asp-action="ChangePassword">Change Password</a>
+                                <a class="nav-link" style="font-size: 20px; padding: 10px; color: black" asp-area="" asp-controller="Account" asp-action="Index">Log Out</a>
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>

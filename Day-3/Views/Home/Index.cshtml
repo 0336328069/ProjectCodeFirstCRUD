@@ -1,6 +1,7 @@
-﻿@model IEnumerable<Product>
+﻿@model IEnumerable<ProductsViewModel>
 @{
     ViewData["Title"] = "Home Page";
+    var name = ViewData["Username"] as String;
 }
 <div class="d-flex mb-2 mt-4">
     <a class="btn btn-primary" style="margin-right:70%;color:white" asp-controller="Products" asp-action="Insert">Insert</a>
@@ -9,6 +10,7 @@
         <button class="btn btn-primary" type="submit">Check</button>
     </form>
 </div>
+<input asp-for="@name"/>
 <table class="table">
     <thead>
         <tr>

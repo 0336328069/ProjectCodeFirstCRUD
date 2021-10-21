@@ -8,7 +8,6 @@ namespace Day_3.ViewModel
 {
     public class LoginViewModel
     {
-        [Key]
         public int Id { get; set; }
         [Required(ErrorMessage ="Nhập Tài Khoản!")]
         [StringLength(100)]

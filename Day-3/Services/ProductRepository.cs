@@ -24,7 +24,6 @@ namespace Day_3.Services
         public void Create(Product p)
         {
             context.Products.Add(p);
-            context.SaveChanges();
         }
 
         public void Delete(int id)
@@ -53,6 +52,11 @@ namespace Day_3.Services
         public void Edit(Product p)
         {
             context.Entry(p).State = EntityState.Modified;
+        }
+
+        public IEnumerable<Product> Gets()
+        {
+            return context.Products.ToList();
         }
     }
 }

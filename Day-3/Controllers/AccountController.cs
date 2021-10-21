@@ -1,4 +1,5 @@
 ﻿using Day_3.Models;
+using Day_3.Services;
 using Day_3.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -8,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Day_3.Controllers
 {
-    public class LoginController : Controller
+    public class AccountController : Controller
     {
-        private readonly AppDbContext _db;
-        public LoginController(AppDbContext db)
+        private IAccount account;
+        public AccountController(IAccount account)
         {
-            _db = db;
+            this.account = account;
         }
         public IActionResult Index()
         {
@@ -24,14 +25,14 @@ namespace Day_3.Controllers
  
         public IActionResult  Login(LoginViewModel model)
         {
-            IEnumerable<User> list = _db.Users;
             if (ModelState.IsValid)
             {
-                foreach (var u in list)
+                foreach (var u in account.Gets())
                 {
                     if (u.Username == model.Username && u.Password == u.Password)
                     {
-                        return RedirectToAction("Index", "Home");
+                        ViewData["Username"] = u.Username as String;
+                        return View("~/Views/Home/Index.cshtml");
                     }
                 }
             }
@@ -45,10 +46,9 @@ namespace Day_3.Controllers
         [HttpPost]
         public IActionResult Register(RegisterViewModel model)
         {
-            IEnumerable<User> list = _db.Users;
             if (ModelState.IsValid)
             {
-                foreach (var u in list)
+                foreach (var u in account.Gets())
                 {
                     if (u.Username != model.Username || model.Password == model.RepeatPassword)
                     {
@@ -58,14 +58,32 @@ namespace Day_3.Controllers
                             Username = model.Username,
                             Password = model.Password
                         };
-                        _db.Users.Add(c);
+                        account.Create(c);
                         break;
                         
                     }
                 }
-            } 
-            _db.SaveChanges();
+            }
+            account.Save();
             return View("~/Views/Login/Register.cshtml", model);
         }
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        //public IActionResult ChangePassword(ChangePasswordViewModel model)
+        //{
+            
+        //    var user = account.Get(name);
+        //    if(user.Password==model.Password && model.NewPassword==model.RepeatNewPassword)
+        //    {
+        //        user.Password = model.NewPassword;
+        //        account.Edit(user);
+        //    }
+        //    account.Save();
+        //    return RedirectToAction("Index", "Home");
+        //}
     }
 }

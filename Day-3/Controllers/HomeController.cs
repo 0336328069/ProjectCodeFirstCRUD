@@ -1,4 +1,6 @@
 ﻿using Day_3.Models;
+using Day_3.Services;
+using Day_3.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,16 +14,29 @@ namespace Day_3.Controllers
     public class HomeController : Controller
     {
         
-        private readonly AppDbContext _db;
+        private readonly IProduct product;
        
-        public HomeController(AppDbContext db)
+        public HomeController(IProduct product)
         {
-            _db = db;
+            this.product = product;
         }
         public IActionResult Index()
         {
-            var list = _db.Products.ToList();
-            return View(list);
+            List<ProductsViewModel> List = new List<ProductsViewModel>();
+            var products = product.Gets();
+            foreach(var product in products)
+            {
+                var p = new ProductsViewModel()
+                {
+                    Id = product.Id,
+                    CategoryId = product.CategoryId,
+                    Image = product.Image,
+                    Name = product.Name,
+                    Price = product.Price
+                };
+                List.Add(p);
+            }
+            return View(List);
         }
 
         public IActionResult Privacy()

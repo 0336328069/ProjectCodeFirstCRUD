@@ -31,6 +31,8 @@ namespace Day_3
                 );
             services.AddControllersWithViews();
             services.AddScoped<IProduct, ProductRepository>();
+            services.AddScoped<IAccount, AccountRepository>();
+            services.AddScoped<IStaff, StaffRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,7 +59,7 @@ namespace Day_3
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Login}/{action=Index}/{id?}");
+                    pattern: "{controller=Account}/{action=Index}/{id?}");
             });
         }
     }

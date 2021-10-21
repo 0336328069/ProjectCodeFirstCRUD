@@ -1,4 +1,5 @@
 ﻿using Day_3.Models;
+using Day_3.Services;
 using Day_3.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -10,16 +11,15 @@ namespace Day_3.Controllers
 {
     public class StaffController : Controller
     {
-        private readonly AppDbContext _db;
-        public StaffController(AppDbContext db)
+        private readonly IStaff staff;
+        public StaffController(IStaff staff)
         {
-            _db = db;
+            this.staff = staff;
         }
         public IActionResult Index()
         {
-            IEnumerable<Staff> list = _db.Staffs;
             List<StaffViewModel> List = new List<StaffViewModel>();
-            foreach(var s in list)
+            foreach(var s in staff.Gets())
             {
                 var staffvm = new StaffViewModel()
                 {
@@ -33,7 +33,7 @@ namespace Day_3.Controllers
         [HttpGet]
         public IActionResult Info(int id)
         {
-            var st = _db.Staffs.FirstOrDefault(s => s.Id == id);
+            var st = staff.Get(id);
             var s = new InfoStaffViewModel()
             {
                 Id = st.Id,
@@ -48,22 +48,22 @@ namespace Day_3.Controllers
         
         public IActionResult Update(InfoStaffViewModel model)
         {
-            var st = _db.Staffs.FirstOrDefault(s => s.Id == model.Id);
+            var st = staff.Get(model.Id);
             st.Id = model.Id;
             st.Name = model.Name;
             st.Age = model.Age;
             st.Birthday = model.Birthday;
             st.Email = model.Email;
             st.Address = model.Address;
-            _db.SaveChanges();
-            return RedirectToAction("Index","Staff");
+            staff.Edit(st);
+            staff.Save();
+            return View("~/Views/Staff/Index.cshtml");
         }
         public  IActionResult Delete(InfoStaffViewModel model)
         {
-            var s = _db.Staffs.FirstOrDefault(s => s.Id == model.Id);
-            _db.Remove(s);
-            _db.SaveChanges();
-            return RedirectToAction("Index", "Staff");
+            staff.Delete(model.Id);
+            staff.Save();
+            return View("~/Views/Staff/Index.cshtml");
         }
 
     }

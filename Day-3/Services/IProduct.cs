@@ -9,6 +9,7 @@ namespace Day_3.Services
 {
     public interface IProduct
     {
+        IEnumerable<Product> Gets();
         IEnumerable<Product> Gets(int id);
         IEnumerable<Product> Check(string name);
         Product Get(int id);
