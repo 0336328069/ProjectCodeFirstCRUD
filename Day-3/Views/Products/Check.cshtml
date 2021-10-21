@@ -1,7 +1,6 @@
-﻿
+﻿@model IEnumerable<ProductsViewModel>
 @{
     ViewData["Title"] = "Home Page";
-    var products = ViewBag.Products as IEnumerable<Product>;
 }
 <div class="d-flex mb-2 mt-4">
     <a class="btn btn-primary" style="margin-right:70%;color:white" asp-controller="Products" asp-action="Insert">Insert</a>
@@ -21,7 +20,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var product in products)
+        @foreach (var product in @Model)
         {
             <tr>
                 <th scope="row">@product.Id</th>

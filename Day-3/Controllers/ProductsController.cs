@@ -25,13 +25,39 @@ namespace Day_3.Controllers
         [HttpGet]
         public IActionResult Index(int id)
         {
-            ViewData["Products"]=product.Gets(id);
-            return View();
+            IEnumerable<Product> products=product.Gets(id);
+            List<ProductsViewModel> List = new List<ProductsViewModel>();
+            foreach(var product in products)
+            {
+                var p = new ProductsViewModel()
+                {
+                    Id = product.Id,
+                    CategoryId = product.CategoryId,
+                    Image = product.Image,
+                    Name = product.Name,
+                    Price = product.Price
+                };
+                List.Add(p);
+            }
+            return View(List);
         }
         public IActionResult Check(string name)
         {
-            ViewBag.Products = product.Check(name);
-            return View();
+            IEnumerable<Product> products = product.Check(name);
+            List<ProductsViewModel> List = new List<ProductsViewModel>();
+            foreach (var product in products)
+            {
+                var p = new ProductsViewModel()
+                {
+                    Id = product.Id,
+                    CategoryId = product.CategoryId,
+                    Image = product.Image,
+                    Name = product.Name,
+                    Price = product.Price
+                };
+                List.Add(p);
+            }
+            return View(List);
         }
         [HttpGet]
         public IActionResult Insert()
