@@ -18,12 +18,12 @@ namespace Day_3.Controllers
         }
         public IActionResult Index()
         {
-            
+
             return View();
         }
         [HttpPost]
- 
-        public IActionResult  Login(LoginViewModel model)
+
+        public IActionResult Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -31,8 +31,7 @@ namespace Day_3.Controllers
                 {
                     if (u.Username == model.Username && u.Password == u.Password)
                     {
-                        ViewData["Username"] = u.Username as String;
-                        return View("~/Views/Home/Index.cshtml");
+                        return RedirectToAction("Index", "Home");
                     }
                 }
             }
@@ -60,7 +59,7 @@ namespace Day_3.Controllers
                         };
                         account.Create(c);
                         break;
-                        
+
                     }
                 }
             }
@@ -72,10 +71,10 @@ namespace Day_3.Controllers
         {
             return View();
         }
-        [HttpPost]
+        //[HttpPost]
         //public IActionResult ChangePassword(ChangePasswordViewModel model)
         //{
-            
+
         //    var user = account.Get(name);
         //    if(user.Password==model.Password && model.NewPassword==model.RepeatNewPassword)
         //    {

@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<ProductsViewModel>
+@using Day_3.Services
 @{
     ViewData["Title"] = "Home Page";
-    var name = ViewData["Username"] as String;
+
 }
+@inject StaticService staticservice
 <div class="d-flex mb-2 mt-4">
     <a class="btn btn-primary" style="margin-right:70%;color:white" asp-controller="Products" asp-action="Insert">Insert</a>
     <form asp-action="Check" asp-controller="Products" class="d-flex">
@@ -10,7 +12,6 @@
         <button class="btn btn-primary" type="submit">Check</button>
     </form>
 </div>
-<input asp-for="@name"/>
 <table class="table">
     <thead>
         <tr>
@@ -18,20 +19,20 @@
             <th scope="col">Image</th>
             <th scope="col">Drink's Name</th>
             <th scope="col">Price</th>
-            <th></th>
+            <th scope="col">Quantity : @staticservice.Quantity()</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var products in @Model)
+        @foreach (var product in @Model)
         {
             <tr>
-                <th scope="row">@products.Id</th>
-                <td><img style="height:80px;width:40%" asp-append-version="true" src="~/Img/@products.Image" /></td>
-                <td>@products.Name</td>
-                <td>@products.Price</td>
+                <th scope="row">@product.Id</th>
+                <td><img style="height:80px;width:40%" asp-append-version="true" src="~/Img/@product.Image" /></td>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
                 <td>
-                    <a asp-action="Update" asp-controller="Products" asp-route-id="@products.Id" class="btn btn-secondary" type="submit">Edit</a>
-                    <a class="btn btn-danger" asp-action="Delete" asp-controller="Products" asp-route-id="@products.Id" type="submit">Delete</a>
+                    <a asp-action="Update" asp-controller="Products" asp-route-id="@product.Id" class="btn btn-secondary" type="submit">Edit</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-controller="Products" asp-route-id="@product.Id" type="submit">Delete</a>
                 </td>
             </tr>
         }

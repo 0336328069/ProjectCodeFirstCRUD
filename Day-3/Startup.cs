@@ -31,8 +31,10 @@ namespace Day_3
                 );
             services.AddControllersWithViews();
             services.AddScoped<IProduct, ProductRepository>();
+            services.AddTransient<StaticService>();
             services.AddScoped<IAccount, AccountRepository>();
             services.AddScoped<IStaff, StaffRepository>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

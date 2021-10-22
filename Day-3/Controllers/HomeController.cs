@@ -13,9 +13,9 @@ namespace Day_3.Controllers
 {
     public class HomeController : Controller
     {
-        
+
         private readonly IProduct product;
-       
+
         public HomeController(IProduct product)
         {
             this.product = product;
@@ -24,7 +24,7 @@ namespace Day_3.Controllers
         {
             List<ProductsViewModel> List = new List<ProductsViewModel>();
             var products = product.Gets();
-            foreach(var product in products)
+            foreach (var product in products)
             {
                 var p = new ProductsViewModel()
                 {

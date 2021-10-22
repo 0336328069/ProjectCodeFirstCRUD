@@ -1,4 +1,4 @@
-﻿@model  IEnumerable<ProductsViewModel>
+﻿@model IEnumerable<ProductsViewModel>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -16,7 +16,7 @@
             <th scope="col">Image</th>
             <th scope="col">Drink's Name</th>
             <th scope="col">Price</th>
-            <th></th>>
+            <th scope="col">Quantity : @Model.Count()</th>
         </tr>
     </thead>
     <tbody>
